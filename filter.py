@@ -7,6 +7,10 @@ import webbrowser
 CF_LANG = "ru"
 #CF_LANG = "com"
 
+def to_contest(problem):
+    raw_data = problem.split('/')
+    return '/'.join(raw_data[:3]) + '/' + '/'.join(["contest", raw_data[5], raw_data[4], raw_data[6]])
+
 def request_cf(lang, method, payload, auth_key):
     if auth_key == None:
         r = requests.get("http://codeforces." + lang + "/api/" + method, params=payload)
@@ -162,7 +166,7 @@ for problem_type in sorted(filtered_problems.keys()):
             else:
                 status_class = "danger"
         problem_row = "<tr name='" + problem_type + "' class='" + status_class + "'>"
-        problem_row += "<td width='90%'><a href='" + get_problem_url(problem) + "'>"
+        problem_row += "<td width='90%'><a href='" + to_contest(get_problem_url(problem)) + "'>"
         problem_row += problem["name"] + "</a></td>"
         problem_row += "<td class='float-right'><a href='" + get_status_url(problem) + "'>" 
         problem_row += "<span class='glyphicon glyphicon-user' aria-hidden='true'></span>"
